@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>MindAR WebAR Demo</title>
+    <!-- A-Frame -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- MindAR.js (A-Frame Integration) -->
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+      canvas { position: absolute; top: 0; left: 0; }
+    </style>
+  </head>
+
+  <body>
+    <a-scene
+      mindar-image="imageTargetSrc: target.mind; modelSrc: model.glb; autoStart: true; uiLoading: true; uiScanning: true;"
+      embedded
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: true"
+    >
+      <!-- Asset loader -->
+      <a-assets>
+        <a-asset-item id="model" src="model.glb"></a-asset-item>
+      </a-assets>
+
+      <!-- Marker target -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model
+          id="clickable"
+          src="#model"
+          position="0 0 0"
+          rotation="0 0 0"
+          scale="0.5 0.5 0.5"
+        ></a-gltf-model>
+      </a-entity>
+
+      <!-- Camera -->
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+    </a-scene>
+
+    <!-- Optional interaksi JS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const model = document.querySelector("#clickable");
+
+        model.addEventListener("click", () => {
+          alert("Model diklik! Kamu bisa tambahkan animasi di sini.");
+        });
+      });
+    </script>
+  </body>
+</html>
