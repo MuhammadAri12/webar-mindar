@@ -1,64 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>MindAR WebAR Demo</title>
-    <!-- A-Frame -->
-<<<<<<< HEAD
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-=======
+    <meta charset="UTF-8" />
+    <title>WebAR MindAR Example</title>
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
->>>>>>> e744041ab0729528bf9b885404726b0cf3d511f6
-    <!-- MindAR.js (A-Frame Integration) -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-aframe.prod.js"></script>
     <style>
-      body { margin: 0; overflow: hidden; }
-      canvas { position: absolute; top: 0; left: 0; }
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
     </style>
   </head>
-
   <body>
+    <script>
+      AFRAME.registerComponent('auto-play-audio', {
+        init: function () {
+          const audio = this.el.components.sound;
+          if (audio) {
+            this.el.addEventListener('targetFound', () => {
+              audio.playSound();
+            });
+            this.el.addEventListener('targetLost', () => {
+              audio.stopSound();
+            });
+          }
+        },
+      });
+    </script>
+
     <a-scene
-<<<<<<< HEAD
-      mindar-image="imageTargetSrc: target.mind; modelSrc: model.glb; autoStart: true; uiLoading: true; uiScanning: true;"
-=======
-      mindar-image="imageTargetSrc: target.mind; autoStart: true; uiLoading: true; uiScanning: true;"
->>>>>>> e744041ab0729528bf9b885404726b0cf3d511f6
-      embedded
+      mindar-image="imageTargetSrc: target.mind;"
       color-space="sRGB"
+      embedded
       renderer="colorManagement: true, physicallyCorrectLights"
       vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: true"
     >
-      <!-- Asset loader -->
       <a-assets>
         <a-asset-item id="model" src="model.glb"></a-asset-item>
       </a-assets>
 
-      <!-- Marker target -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model
-          id="clickable"
-          src="#model"
-          position="0 0 0"
-          rotation="0 0 0"
-          scale="0.5 0.5 0.5"
-        ></a-gltf-model>
-      </a-entity>
-
-      <!-- Camera -->
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model src="#model" position="0 0 0" rotation="0 0 0" scale="0.5 0.5 0.5"></a-gltf-model>
+      </a-entity>
     </a-scene>
-
-    <!-- Optional interaksi JS -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const model = document.querySelector("#clickable");
-
-        model.addEventListener("click", () => {
-          alert("Model diklik! Kamu bisa tambahkan animasi di sini.");
-        });
-      });
-    </script>
   </body>
 </html>
